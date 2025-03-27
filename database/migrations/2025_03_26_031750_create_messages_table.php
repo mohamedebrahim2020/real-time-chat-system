@@ -18,8 +18,12 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'receiver_id')->constrained();
             $table->text('message');
             $table->tinyInteger('status')->default(0);
-            $table->timestamps();
-        });
+			$table->index(['sender_id', 'receiver_id']); //Optimizes queries that search for conversations between two users.
+			$table->timestamps();
+			$table->index('created_at'); // Sorting or fetching recent messages becomes faster.
+
+
+		});
     }
 
     /**
